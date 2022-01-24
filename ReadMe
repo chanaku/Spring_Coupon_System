@@ -1,0 +1,57 @@
+Coupon System.
+
+auther by Chana Kurtz.
+
+Build with: mysql-connector-8.0.25 Java version
+ java-15
+ JDK-11.0.11
+ springframework.boot 2.5.5
+ jaxb-api 2.3.0
+
+ Description:
+ the project contain Beans defined according to spring-boot.
+ i the package "beans":
+ Each class is a table in DB, but the category class (enum - not a table).
+ 
+ the repository package, contains all the repositories methods, to do with the beans. 
+ each class of repository mean a type of user, admin/company/customer.
+ each one of them contains the actions that this user can do.
+ 
+ the service classes - implements the repository method. 
+ this is a safe layer to use the repositorie's methods, with logics of the system. 
+ for e.g. , user can login if his details are exist and correct.
+ 
+ exceptions - to throw a uniqe exception of each method if needed. 
+ so the user will get the reason of the error. (or logic error).
+ 
+ job scheduled - 
+ thos is a job that runing once a day, and delete all the expired coupons from DB. 
+ this is an async action, and happened every day.
+ 
+ login manager - 
+ this contains the login method, with the logic to get the kind of the user. 
+ for e.g. , if a company user loggen, the mothod return a company kind of client.
+ 
+ the clientType class comtains the clients type of the System. 
+ 
+ Test package - 
+ contains all the methods for testing. 
+ admin's methods is running first,
+ company's methods is running seccond,
+ customer's methods is running third.
+ 
+ 
+ Users:
+ Admin - Username: "admin@admin.com", password: "admin"
+ companies - 
+ User: "lala@la.com" password: "123" 
+ User:"gold@gold-line.com"   Password: "123456"
+ User: "zom@zom.com"  Password:"123456"
+ User: "gil@gil.com"  Password: "123456"
+ customers
+ User: "shir@gmail.com"  Password:"123456"
+ User: "tahel@gmail.com"  Password: "123456"
+ User: "lsil@gmail.com"  Password:"123456"
+ 
+ 
+ 
