@@ -1,5 +1,8 @@
 package com.chana.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,18 +47,18 @@ public class CustomerController extends ClientController{
 	}
 	
 	@GetMapping("/coupon")
-	public CouponList getCustomerCoupons(){
-		return new CouponList(customerService.getCustomerCoupons(customerService.getCustomerId()));
+	public List<Coupon> getCustomerCoupons(){
+		return customerService.getCustomerCoupons(customerService.getCustomerId());
 	}
 	
 	@GetMapping("/coupon/category")
-	public CouponList getCouponsByCategory(@RequestParam Category category) {
-		return new CouponList(customerService.getCustomerCouponsByCategory(customerService.getCustomerId(), category));
+	public ArrayList<Coupon> getCouponsByCategory(@RequestParam Category category) {
+		return customerService.getCustomerCouponsByCategory(customerService.getCustomerId(), category);
 	}
 	
 	@GetMapping("/coupon/{maxPrice}")
-	public CouponList getCouponsByMaxPrice(@PathVariable("maxPrice") int maxPrice) {
-		return new CouponList(customerService.getCustomerCouponsByMaxPrice(customerService.getCustomerId(), maxPrice));
+	public ArrayList<Coupon> getCouponsByMaxPrice(@PathVariable("maxPrice") int maxPrice) {
+		return customerService.getCustomerCouponsByMaxPrice(customerService.getCustomerId(), maxPrice);
 	}
 	
 	@GetMapping

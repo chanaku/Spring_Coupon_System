@@ -22,7 +22,7 @@ public class CompanyList {
 
 	@Override
 	public String toString() {
-		return "CompanyList [companies=" + companies + "]";
+		return "[" + companies + "]";
 	}
 	
 	

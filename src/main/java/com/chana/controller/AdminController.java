@@ -1,10 +1,13 @@
 package com.chana.controller;
 
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chana.beans.Company;
 import com.chana.beans.CompanyList;
+import com.chana.beans.Coupon;
 import com.chana.beans.CouponList;
 import com.chana.beans.Customer;
 import com.chana.beans.CustomersList;
@@ -32,6 +36,7 @@ import com.chana.login.TokenManager;
 import com.chana.service.AdminService;
 import com.chana.utils.ClientType;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/admin")
 public class AdminController extends ClientController {
@@ -47,7 +52,7 @@ public class AdminController extends ClientController {
 	public AdminController(AdminService adminService) {
 		this.adminService = adminService;
 	}
-	// try return response entity or liginDto with login and token
+	// try return response entity or loginDto with login and token
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) throws LoginException {
 		loginManager.login(loginRequest.getEmail(), loginRequest.getPassword(), ClientType.ADMINISTRATOR);
@@ -62,7 +67,7 @@ public class AdminController extends ClientController {
 	}
 
 	// add company
-	@PostMapping
+	@PostMapping("/company")
 	public ResponseEntity<?> addCompany(@Valid @RequestBody Company company) {
 		try {
 			adminService.addCompany(company);
@@ -99,8 +104,8 @@ public class AdminController extends ClientController {
 	}
 
 	@GetMapping("/company")
-	public CompanyList getAllCompanies() {
-		return new CompanyList(adminService.getAllCompany());
+	public ArrayList<Company> getAllCompanies() {
+		return  adminService.getAllCompany();
 	}
 
 	@PostMapping("/customer")
@@ -127,8 +132,8 @@ public class AdminController extends ClientController {
 	}
 
 	@GetMapping("/customer")
-	public CustomersList getAllCustomers() {
-		return new CustomersList(adminService.getAllCustomers());
+	public ArrayList<Customer> getAllCustomers() {
+		return adminService.getAllCustomers();
 	}
 
 	@GetMapping("/customer/{id}")
@@ -136,9 +141,9 @@ public class AdminController extends ClientController {
 		return new ResponseEntity<Customer>(adminService.getOneCustomer(id), HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping("/coupon")
-	public CouponList getAllCoupons() {
-		return new CouponList(adminService.getAllCoupons());
+	@GetMapping("/coupons")
+	public ArrayList<Coupon> getAllCoupons() {
+		return adminService.getAllCoupons();
 	}
 
 }

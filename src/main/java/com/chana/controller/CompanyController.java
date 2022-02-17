@@ -1,10 +1,14 @@
 package com.chana.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +34,7 @@ import com.chana.login.TokenManager;
 import com.chana.service.AdminService;
 import com.chana.service.CompanyService;
 import com.chana.utils.ClientType;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/company")
 public class CompanyController extends ClientController{
@@ -53,7 +57,7 @@ public class CompanyController extends ClientController{
 		 return new ResponseEntity<>(token,HttpStatus.ACCEPTED);
 	}
 	// add coupon
-	@PostMapping
+	@PostMapping("/coupon")
 	public ResponseEntity<?> addCoupon(@Valid @RequestBody Coupon coupon) {
 		try {
 			companyService.addCoupon(coupon, companyService.getCompanyId());
@@ -78,13 +82,13 @@ public class CompanyController extends ClientController{
 		return new ResponseEntity(HttpStatus.ACCEPTED);
 	}
 	@GetMapping("/coupon/category")
-	public CouponList getAllCompanies(@Valid @RequestParam Category category) {
-		return new CouponList(companyService.getCompanyCoupons(category, companyService.getCompanyId()));
+	public List<Coupon> getAllCompanies(@Valid @RequestParam Category category) {
+		return companyService.getCompanyCoupons(category, companyService.getCompanyId());
 	}
 	
 	@GetMapping("/coupon/{maxPrice}")
-	public CouponList getAllCompanies(@Valid @PathVariable("maxPrice") int maxPrice) {
-		return new CouponList(companyService.getCompanyCoupons(maxPrice, companyService.getCompanyId()));
+	public ArrayList<Coupon> getAllCompanies(@Valid @PathVariable("maxPrice") int maxPrice) {
+		return companyService.getCompanyCoupons(maxPrice, companyService.getCompanyId());
 	}
 	
 	@GetMapping
