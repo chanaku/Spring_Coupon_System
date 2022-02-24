@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chana.beans.Company;
@@ -67,7 +69,10 @@ public class AdminController extends ClientController {
 	}
 
 	// add company
-	@PostMapping("/company")
+	@PostMapping(path = "/company", 
+			// method= RequestMethod.POST,
+//		    produces = MediaType.APPLICATION_JSON_VALUE,
+		    consumes = "application/json")
 	public ResponseEntity<?> addCompany(@Valid @RequestBody Company company) {
 		try {
 			adminService.addCompany(company);
@@ -77,6 +82,7 @@ public class AdminController extends ClientController {
 		}
 		return new ResponseEntity(HttpStatus.CREATED);
 	}
+
 
 	// get company by path param
 	@GetMapping("/company/{id}")
