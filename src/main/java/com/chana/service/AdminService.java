@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.chana.beans.Company;
+import com.chana.beans.CompanyUpdate;
 import com.chana.beans.Coupon;
 import com.chana.beans.Customer;
 import com.chana.exceptions.AddCompanyException;
@@ -15,15 +16,19 @@ import com.chana.exceptions.LoginException;
 import com.chana.exceptions.ServiceException;
 import com.chana.exceptions.UpdateCompanyException;
 import com.chana.repositories.CompanyRepository;
+import com.chana.repositories.CompanyUpdateRepository;
 import com.chana.repositories.CouponRepository;
 import com.chana.repositories.CustomerRepository;
 
 @Service
 public class AdminService extends ClientService {
+	@Autowired
+	CompanyUpdateRepository companyUpdateRepository;
 	
 	public AdminService(CompanyRepository companyRepository, CustomerRepository customerRepository,
-			CouponRepository couponRepository) {
+			CouponRepository couponRepository, CompanyUpdateRepository companyUpdateRepository) {
 		super(companyRepository, customerRepository, couponRepository);
+		this.companyUpdateRepository = companyUpdateRepository;
 	}
 
 
@@ -77,9 +82,10 @@ public class AdminService extends ClientService {
 	 *  @see can't to ensure that the user didn't update the company code or name                     
 	 */
 	
-	public void updateCompany(Company company) throws UpdateCompanyException {
-		if (companyRepository.existsByIdAndName(company.getId(), company.getName())) {
-			companyRepository.save(company);// change to save method
+	public void updateCompany(CompanyUpdate company) throws UpdateCompanyException {
+		
+		if (companyUpdateRepository.existsById(company.getId())) {
+			companyUpdateRepository.save(company);// change to save method
 		} else {
 			throw new UpdateCompanyException("can't update, the company is invalid");
 		}

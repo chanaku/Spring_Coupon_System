@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chana.beans.Company;
 import com.chana.beans.CompanyList;
+import com.chana.beans.CompanyUpdate;
 import com.chana.beans.Coupon;
 import com.chana.beans.CouponList;
 import com.chana.beans.Customer;
@@ -91,13 +92,13 @@ public class AdminController extends ClientController {
 	}
 
 	// update company
-	@PutMapping("/company")
-	public ResponseEntity<?> updateCompany(@Valid @RequestBody Company company) {
+	@PutMapping("/company/")
+	public ResponseEntity<?> updateCompany(@Valid @RequestBody CompanyUpdate company) {
 		try {
 			adminService.updateCompany(company);
 		} catch (UpdateCompanyException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 		} // make the update
 		return new ResponseEntity(HttpStatus.ACCEPTED);
 	}
