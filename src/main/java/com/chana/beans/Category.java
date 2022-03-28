@@ -11,6 +11,6 @@ package com.chana.beans;
  */
 
 public enum Category {
-	Null, Food, Electricity, Restaurant, Vacation;
+	NULL, FOOD,ELECTRICITY, RESTAURANT, VACATION;
 
 }

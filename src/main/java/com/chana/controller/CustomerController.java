@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,20 +21,36 @@ import com.chana.beans.Category;
 import com.chana.beans.Coupon;
 import com.chana.beans.CouponList;
 import com.chana.beans.Customer;
+import com.chana.exceptions.LoginException;
 import com.chana.exceptions.PurchaseCouponException;
 import com.chana.exceptions.ServiceException;
+import com.chana.login.LoginManager;
+import com.chana.login.LoginRequest;
+import com.chana.login.TokenManager;
 import com.chana.service.CustomerService;
+import com.chana.utils.ClientType;
 
 @RestController
 @RequestMapping("/customer")
 public class CustomerController extends ClientController{
 	private CustomerService customerService;
 	@Autowired
+	private LoginManager loginManager;
+	@Autowired
+	private TokenManager tokenManager;
+	
+	@Autowired
 	public CustomerController(CustomerService customerService) {
 		this.customerService = customerService;
 	}
 	
-	
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws LoginException {
+		loginManager.login(loginRequest.getEmail(), loginRequest.getPassword(), loginRequest.getClientType());
+		String token = tokenManager.generageToken(ClientType.CUSTOMER).toString();
+		
+		 return new ResponseEntity<>(token,HttpStatus.ACCEPTED);
+	}
 	
 	@PutMapping
 	public ResponseEntity<?> purchaseCoupon(@Valid @RequestBody Coupon coupon){
@@ -46,17 +63,17 @@ public class CustomerController extends ClientController{
 		return new ResponseEntity(HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping("/coupon")
+	@GetMapping("/coupons")
 	public List<Coupon> getCustomerCoupons(){
 		return customerService.getCustomerCoupons(customerService.getCustomerId());
 	}
 	
-	@GetMapping("/coupon/category")
-	public ArrayList<Coupon> getCouponsByCategory(@RequestParam Category category) {
+	@GetMapping("/coupons/{category}")
+	public ArrayList<Coupon> getCouponsByCategory(@PathVariable("category") Category category) {
 		return customerService.getCustomerCouponsByCategory(customerService.getCustomerId(), category);
 	}
 	
-	@GetMapping("/coupon/{maxPrice}")
+	@GetMapping("/coupons/{maxPrice}")
 	public ArrayList<Coupon> getCouponsByMaxPrice(@PathVariable("maxPrice") int maxPrice) {
 		return customerService.getCustomerCouponsByMaxPrice(customerService.getCustomerId(), maxPrice);
 	}

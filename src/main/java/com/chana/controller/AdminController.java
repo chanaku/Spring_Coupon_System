@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chana.beans.Category;
 import com.chana.beans.Company;
 import com.chana.beans.CompanyList;
 import com.chana.beans.CompanyUpdate;
@@ -151,6 +152,10 @@ public class AdminController extends ClientController {
 	@GetMapping("/coupons")
 	public ArrayList<Coupon> getAllCoupons() {
 		return adminService.getAllCoupons();
+	}
+	@GetMapping("/coupons/{category}")
+	public ArrayList<Coupon> getCouponsByCategory(@PathVariable("category") Category category) {
+		return adminService.getCouponsByCategory(category);
 	}
 
 }

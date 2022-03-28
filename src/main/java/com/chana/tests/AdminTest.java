@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 
 import com.chana.beans.Company;
+import com.chana.beans.CompanyUpdate;
 import com.chana.exceptions.AddCompanyException;
 import com.chana.exceptions.UpdateCompanyException;
 import com.chana.service.AdminService;
@@ -19,6 +20,7 @@ public class AdminTest implements CommandLineRunner {
 	private AdminService admin;
 	private Company company = new Company("btl", "btl@btl.com", "123456");
 	private Company company1 = new Company("btl", "btl@btl.com", "525252");
+	private CompanyUpdate company2 = new CompanyUpdate(0, "btFF", "btlFF@btl.com", "525252");
 	/**
 	 * run method - all the methods in, running when spring start this 'run' method. 
 	 * for testing all the admin methods.
@@ -60,7 +62,7 @@ public class AdminTest implements CommandLineRunner {
 	public void updateCompany() throws UpdateCompanyException {
 		System.out.println("update company success:");
 		try {
-			admin.updateCompany(company1);
+			admin.updateCompany(company2);
 		} catch (UpdateCompanyException e) {
 			System.out.println(e.getMessage());
 		}

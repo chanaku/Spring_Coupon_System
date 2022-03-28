@@ -44,13 +44,15 @@ public class CompanyController extends ClientController{
 
 	@Autowired
 
-	public CompanyController(CompanyService companyService, LoginManager loginManager) {
+	public CompanyController(CompanyService companyService, LoginManager loginManager,TokenManager tokenManager) {
 		this.companyService = companyService;
 		this.loginManager = loginManager;
+		this.tokenManager = tokenManager;
 	}
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws LoginException {
+		System.out.println("this is login request "+ loginRequest);
 		loginManager.login(loginRequest.getEmail(), loginRequest.getPassword(), loginRequest.getClientType());
 		String token = tokenManager.generageToken(ClientType.COMPANY).toString();
 		

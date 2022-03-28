@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 
 import com.chana.login.TokenManager;
 
-@WebFilter("/customer/*")
+@WebFilter("/company/*")
 public class AuthorizationFilter implements Filter{
 	
 	@Autowired

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.chana.beans.Category;
 import com.chana.beans.Company;
 import com.chana.beans.CompanyUpdate;
 import com.chana.beans.Coupon;
@@ -183,5 +184,8 @@ public class AdminService extends ClientService {
 	 */
 	public ArrayList<Coupon> getAllCoupons(){
 		return couponRepository.findAll();
+	}
+	public ArrayList<Coupon> getCouponsByCategory(Category category){
+		return couponRepository.findByCategory(category);
 	}
 }

@@ -33,6 +33,8 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	ArrayList<Coupon> findByPriceLessThanEqual(double maxPrice);
 
 	ArrayList<Coupon> findByCompanyId(int companyId);
+	
+	ArrayList<Coupon> findByCategory(Category category);
 
 	ArrayList<Coupon> findByPriceLessThanEqualAndCompanyId(double maxPrice, int companyId);
 

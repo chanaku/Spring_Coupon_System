@@ -21,6 +21,8 @@ import com.chana.utils.ClientType;
 @Scope("prototype")
 public class CustomerService extends ClientService {
 	
+	
+	
 	public CustomerService(CompanyRepository companyRepository, CustomerRepository customerRepository,
 			CouponRepository couponRepository) {
 		super(companyRepository, customerRepository, couponRepository);
