@@ -42,7 +42,7 @@ import com.chana.utils.ClientType;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/administrator")
 public class AdminController extends ClientController {
 	@Autowired
 	private AdminService adminService;
