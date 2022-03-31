@@ -1,6 +1,7 @@
 package com.chana.repositories;
 
 import java.sql.Date;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +40,10 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	ArrayList<Coupon> findByPriceLessThanEqualAndCompanyId(double maxPrice, int companyId);
 
 	ArrayList<Coupon> findBycompanyIdAndPriceLessThanEqual(int customerId, double maxPrice);
-
-	boolean existsByIdAndAmountEquals(int id, double zero);
+	
+	boolean existsByIdAndEndDateBefore(int id, Date date);
+	
+	boolean existsByIdAndAmountEquals(int id, int zero);
 	boolean existsByTitleAndCompanyId(String title, int companyId);
 
 	/**
@@ -55,8 +58,8 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 //	@Query(value = "select * from coupons where company_id =?1 and title=?1", nativeQuery = true)
 //	boolean isCompanyCouponTitleExist(int companyId, String title);
 
-	@Query(value = "select * from coupons where id =?1 and end_date<now()", nativeQuery = true)
-	boolean isCouponExpierd(Integer companyId);
+//	@Query(value = "select * from coupons where id =?1 and end_date<now()", nativeQuery = true)
+//	Boolean existsByIdAndEndDateBefore(Integer companyId);
 
 	@Transactional
 	@Modifying
@@ -81,4 +84,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	@Query(value = "select * from coupons left join customers_vs_coupons on coupons.id= customers_vs_coupons.coupon_id where"
 			+ " customers_vs_coupons.customer_id=?", nativeQuery = true)
 	ArrayList<Coupon> findByCustomerId(int customerId);
+
+//	boolean isCouponExpierd(int id, ZonedDateTime zonedDateTime);
 }

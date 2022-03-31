@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,19 +50,19 @@ public class Coupon {
 	private String title;
 	@NotNull(message="enter description is required")
 	private String description;
-	@NotNull(message="enter start date is required")
-	@PastOrPresent
+//	@NotNull(message="enter start date is required")
+//	@PastOrPresent
 	@Column(name = "start_date")
 	private Date startDate;
-	@NotNull(message="enter end date is required")
-	@Future
+//	@NotNull(message="enter end date is required")
+//	@Future
 	@Column(name = "end_date")
 	private Date endDate;
 	@NotNull(message="enter amount is required")
 	@Min(value=1, message = "amount can't be less then 1.")
 	private int amount;
-	@Min(value=1, message = "price can't be less then 1.")
-	@NotNull(message="enter price is required")
+//	@Min(value=1, message = "price can't be less then 1.")
+//	@NotNull(message="enter price is required")
 	private double price;
 	private String image;
 

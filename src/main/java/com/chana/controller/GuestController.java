@@ -62,10 +62,7 @@ public class GuestController {
 			}
 			
 		}
-		
-		System.out.println(loginRequest.getClientType());
-		System.out.println(loginRequest.getEmail());
-		System.out.println(loginRequest.getPassword());
+
 		loginManager.login(loginRequest.getEmail(), loginRequest.getPassword(), loginRequest.getClientType());
 		String token = tokenManager.generageToken(loginRequest.getClientType()).toString();
 		

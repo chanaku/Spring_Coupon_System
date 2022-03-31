@@ -57,20 +57,25 @@ public class CustomerController extends ClientController{
 	@PutMapping
 	public ResponseEntity<?> purchaseCoupon(@Valid @RequestBody Coupon coupon){
 		try {
+			System.out.println("this is cusrtomer id from controller: "+customerService.getCustomerId());
 			customerService.purchaseCoupon(coupon);
+			
 		} catch (PurchaseCouponException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new ResponseEntity(HttpStatus.ACCEPTED);
 	}
-	
 	@GetMapping("/coupons")
+	public List<Coupon> getAllCoupons(){
+		return customerService.getAllCoupons();
+	}
+	@GetMapping("/mycoupons")
 	public List<Coupon> getCustomerCoupons(){
 		return customerService.getCustomerCoupons(customerService.getCustomerId());
 	}
 	
-	@GetMapping("/coupons/{category}")
+	@GetMapping("/coupons/category/{category}")
 	public ArrayList<Coupon> getCouponsByCategory(@PathVariable("category") Category category) {
 		return customerService.getCustomerCouponsByCategory(customerService.getCustomerId(), category);
 	}

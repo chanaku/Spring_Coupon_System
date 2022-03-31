@@ -12,15 +12,16 @@ import com.chana.beans.Customer;
 import com.chana.exceptions.LoginException;
 import com.chana.exceptions.PurchaseCouponException;
 import com.chana.exceptions.ServiceException;
+import com.chana.login.TokenInfo;
 import com.chana.repositories.CompanyRepository;
 import com.chana.repositories.CouponRepository;
 import com.chana.repositories.CustomerRepository;
-import com.chana.utils.ClientType;
 
 @Service
 @Scope("prototype")
 public class CustomerService extends ClientService {
-	
+	@Autowired
+	private TokenInfo tokenInfo= new TokenInfo();
 	
 	
 	public CustomerService(CompanyRepository companyRepository, CustomerRepository customerRepository,
@@ -29,7 +30,7 @@ public class CustomerService extends ClientService {
 	}
 	
 
-	private int customerId;
+	private int customerId ;
 	
 
 	public int getCustomerId() {
@@ -84,14 +85,18 @@ public class CustomerService extends ClientService {
 		if (couponRepository.existsByIdAndAmountEquals(coupon.getId(), 0)) {
 			throw new PurchaseCouponException("coupon out of stock.");
 		}
-		if (couponRepository.isCouponExpierd(coupon.getId())) {
+		 long millis=System.currentTimeMillis();  
+		if (couponRepository.existsByIdAndEndDateBefore(coupon.getId(), new java.sql.Date(millis))) {
 			throw new PurchaseCouponException("coupon is expired.");
 		}
-		if (customerRepository.customerPurchesedCoupon(customerId, coupon.getId())) {
+		if (!customerRepository.existsPurchesedCoupon(tokenInfo.getUserId(), coupon.getId()).isEmpty()) {
+			System.out.println(customerRepository.existsPurchesedCoupon(tokenInfo.getUserId(), coupon.getId()));
 			throw new PurchaseCouponException("can buy only once.");
 		}
+		System.out.println("this is customer id"+tokenInfo.getUserId());
+		couponRepository.updatePurchasedCouponByCustomer(tokenInfo.getUserId(), coupon.getId());
 		couponRepository.updateCouponQuantity(coupon.getId());
-		couponRepository.updatePurchasedCouponByCustomer(customerId, coupon.getId());
+		
 	}
 
 	/**
@@ -113,6 +118,10 @@ public class CustomerService extends ClientService {
 	 */
 	public ArrayList<Coupon> getCustomerCouponsByCategory(int customerId, Category category) {
 		return couponRepository.findByCategoryAndCustomerId(customerId, category.compareTo(category));
+
+	}
+	public ArrayList<Coupon> getAllCoupons() {
+		return couponRepository.findAll();
 
 	}
 

@@ -1,6 +1,7 @@
 package com.chana.repositories;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -51,5 +52,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	ArrayList<Coupon> findAllCouponsByCustomerId(int customerId);
 
 	@Query(value = "select * from customers_vs_coupons where customer_id =? and coupon_id = ?", nativeQuery = true)
-	boolean customerPurchesedCoupon(int customerId, int couponId);
+	Optional<String> existsPurchesedCoupon(int customerId, int couponId);
 }

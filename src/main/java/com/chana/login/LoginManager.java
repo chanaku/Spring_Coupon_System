@@ -18,6 +18,12 @@ import com.chana.utils.ClientType;
 public class LoginManager {
 	private final ApplicationContext context;
 	private final AdminService adminService;
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private CompanyService companyService;
+	@Autowired
+	private TokenInfo tokenInfo;
 	private TokenManager tokenManager;
 	private ClientService clientService;
 
@@ -48,11 +54,11 @@ public class LoginManager {
 			break;
 		case COMPANY:
 			clientService=(ClientService)context.getBean(CompanyService.class);
-			
+			tokenInfo.setUserId(companyService.getCompanyDetailsByEmailAndPassword(email, password).getId()); 
 			break;
 		case CUSTOMER:
 			clientService=(ClientService)context.getBean(CustomerService.class);
-			
+			tokenInfo.setUserId(customerService.getCustomerByEmailAndPassword(email, password).getId());
 			break;
 		}
 		if (!clientService.login(email, password)) {
