@@ -20,8 +20,7 @@ import com.chana.repositories.CustomerRepository;
 @Service
 @Scope("prototype")
 public class CustomerService extends ClientService {
-	@Autowired
-	private TokenInfo tokenInfo= new TokenInfo();
+	
 	
 	
 	public CustomerService(CompanyRepository companyRepository, CustomerRepository customerRepository,
@@ -29,11 +28,11 @@ public class CustomerService extends ClientService {
 		super(companyRepository, customerRepository, couponRepository);
 	}
 	
-
-	private int customerId ;
+	private Customer customer;
+	private static int customerId =0;
 	
 
-	public int getCustomerId() {
+	public  int getCustomerId() {
 		return customerId;
 	}
 
@@ -52,8 +51,10 @@ public class CustomerService extends ClientService {
 	@Override
 	public boolean login(String email, String password) throws LoginException {
 		if (customerRepository.existsByEmailAndPassword(email, password)) {
-			Customer customer = customerRepository.findByEmailAndPassword(email, password);
-			customerId = customer.getId();
+			this.customer = customerRepository.findByEmailAndPassword(email, password);
+			this.customerId = customer.getId();
+			System.out.println("this is from login - customer "+customer.getId());
+			System.out.println("this is from login customerId "+this.customerId);
 			return true;
 		}
 		throw new LoginException("login error. email or password dosn't exist.");
@@ -89,12 +90,12 @@ public class CustomerService extends ClientService {
 		if (couponRepository.existsByIdAndEndDateBefore(coupon.getId(), new java.sql.Date(millis))) {
 			throw new PurchaseCouponException("coupon is expired.");
 		}
-		if (!customerRepository.existsPurchesedCoupon(tokenInfo.getUserId(), coupon.getId()).isEmpty()) {
-			System.out.println(customerRepository.existsPurchesedCoupon(tokenInfo.getUserId(), coupon.getId()));
+		if (!customerRepository.existsPurchesedCoupon(customerId, coupon.getId()).isEmpty()) {
+			System.out.println(customerRepository.existsPurchesedCoupon(this.customerId, coupon.getId()));
 			throw new PurchaseCouponException("can buy only once.");
 		}
-		System.out.println("this is customer id"+tokenInfo.getUserId());
-		couponRepository.updatePurchasedCouponByCustomer(tokenInfo.getUserId(), coupon.getId());
+		System.out.println("this is customer id"+ this.customerId);
+		couponRepository.updatePurchasedCouponByCustomer(this.customerId, coupon.getId());
 		couponRepository.updateCouponQuantity(coupon.getId());
 		
 	}

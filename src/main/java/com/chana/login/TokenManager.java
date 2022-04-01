@@ -31,11 +31,12 @@ public class TokenManager {
 	public void removeToken(String token) {
 		tokens.remove(token);
 	}
-	private boolean isTokenExpired(Date time) {
-		return new Date().after(DateUtils.addMinutes(time, 30));
-	}
+	
 	public void removeExpired() {
 		tokens.entrySet().removeIf((entry)-> 
 				isTokenExpired(entry.getValue().getCreationDate()));
+	}
+	private boolean isTokenExpired(Date time) {
+		return new Date().after(DateUtils.addMinutes(time, 30));
 	}
 }

@@ -3,6 +3,8 @@ package com.chana.login;
 import java.util.Date;
 import java.util.UUID;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.chana.utils.ClientType;
@@ -18,12 +20,12 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @Setter
-@Component
+//@Component
+//@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS , value = "prototype")
 public class TokenInfo {
 	private String token;
 	private Date creationDate;
 	private ClientType clientType;
-	private int userId;
 	
 	public static TokenInfo generate(ClientType type) {
 		return TokenInfo.builder()
@@ -33,9 +35,7 @@ public class TokenInfo {
 				.build();
 								
 	}
+	
 
-	public void setUserId(int id) {
-		this.userId=id;
-		
-	}
+
 }
