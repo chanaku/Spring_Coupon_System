@@ -27,7 +27,7 @@ public class CompanyService extends ClientService {
 		super(companyRepository, customerRepository, couponRepository);
 		// TODO Auto-generated constructor stub
 	}
-		int companyId;
+	private static int companyId=0;
 		
 	public int getCompanyId() {
 		return companyId;
@@ -143,10 +143,16 @@ public class CompanyService extends ClientService {
 	 * @return the company
 	 */
 	public Company getCompanyDetailsByEmailAndPassword(String email, String password) {
+		System.out.println("this is email: " +email);
+		System.out.println("this is password: " +password);
 		return companyRepository.findByEmailAndPassword(email, password);
 	}
 
 	public Coupon getCouponById(int couponID) {
 		return couponRepository.findById(couponID);
+	}
+
+	public List<Coupon> getAllCoupons() {
+		return couponRepository.findAll();
 	}
 }

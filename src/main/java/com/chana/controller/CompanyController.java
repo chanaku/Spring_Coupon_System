@@ -24,6 +24,7 @@ import com.chana.beans.Company;
 import com.chana.beans.CompanyList;
 import com.chana.beans.Coupon;
 import com.chana.beans.CouponList;
+import com.chana.beans.EmailHolding;
 import com.chana.exceptions.AddCouponException;
 import com.chana.exceptions.LoginException;
 import com.chana.exceptions.ServiceException;
@@ -60,7 +61,7 @@ public class CompanyController extends ClientController{
 		 return new ResponseEntity<>(token,HttpStatus.ACCEPTED);
 	}
 	// add coupon
-	@PostMapping("/coupon")
+	@PostMapping("/coupons")
 	public ResponseEntity<?> addCoupon(@Valid @RequestBody Coupon coupon) {
 		try {
 			companyService.addCoupon(coupon, companyService.getCompanyId());
@@ -72,24 +73,34 @@ public class CompanyController extends ClientController{
 	}
 
 	// update coupon
-	@PutMapping("/coupon")
+	@PutMapping("/coupons")
 	public ResponseEntity<?> updateCoupon(@Valid @RequestBody Coupon coupon) {
 		companyService.updateCoupon(coupon);
 		return new ResponseEntity(HttpStatus.ACCEPTED);
 	}
+	
+	@GetMapping("/mycoupons")
+	public List<Coupon> getCompanyCoupons(){
+		return companyService.getCompanyCoupons(companyService.getCompanyId());
+	}
+	
+	@GetMapping("/coupons")
+	public List<Coupon> getAllCoupons(){
+		return companyService.getAllCoupons();
+	}
 
 	// delete coupon by id
-	@DeleteMapping("/coupon/{id}")
+	@DeleteMapping("/coupons/{id}")
 	public ResponseEntity<?> deleteCouponById(@Valid @PathVariable("id") int id) {
 		companyService.deleteCoupon(id);
 		return new ResponseEntity(HttpStatus.ACCEPTED);
 	}
-	@GetMapping("/coupon/category")
-	public List<Coupon> getAllCompanies(@Valid @RequestParam Category category) {
+	@GetMapping("/coupons/category/{category)")
+	public List<Coupon> getAllCompanies(@Valid @PathVariable("category") Category category) {
 		return companyService.getCompanyCoupons(category, companyService.getCompanyId());
 	}
 	
-	@GetMapping("/coupon/{maxPrice}")
+	@GetMapping("/coupons/{maxPrice}")
 	public ArrayList<Coupon> getAllCompanies(@Valid @PathVariable("maxPrice") int maxPrice) {
 		return companyService.getCompanyCoupons(maxPrice, companyService.getCompanyId());
 	}
@@ -99,4 +110,9 @@ public class CompanyController extends ClientController{
 		return new ResponseEntity<Company>(companyService.getCompanyDetails(companyService.getCompanyId()), HttpStatus.OK);
 	}
 	
+	@PostMapping("/company")
+	public ResponseEntity<?> getCompanyDetailsByEmilAndPassword(@Valid @RequestBody EmailHolding e){
+		System.out.println("this is email: "+e.getEmail()+" and password: "+e.getPassword());
+		return new ResponseEntity<Integer>(companyService.getCompanyDetailsByEmailAndPassword(e.getEmail(), e.getPassword()).getId(), HttpStatus.OK);
+	}
 }
