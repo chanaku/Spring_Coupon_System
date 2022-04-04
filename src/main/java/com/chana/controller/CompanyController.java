@@ -63,6 +63,7 @@ public class CompanyController extends ClientController{
 	// add coupon
 	@PostMapping("/coupons")
 	public ResponseEntity<?> addCoupon(@Valid @RequestBody Coupon coupon) {
+		System.out.println("this is coupon company: "+coupon.getCompany());
 		try {
 			companyService.addCoupon(coupon, companyService.getCompanyId());
 		} catch (AddCouponException e) {
