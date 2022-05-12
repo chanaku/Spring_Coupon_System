@@ -39,7 +39,7 @@ public class Coupon {
 	
 	private int id;
 	@JsonBackReference
-	@ManyToOne(cascade = {CascadeType.PERSIST})
+	@ManyToOne(cascade = {CascadeType.MERGE})
 	private Company company;
 
 	@Enumerated(value = EnumType.ORDINAL)

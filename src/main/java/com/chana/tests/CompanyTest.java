@@ -49,7 +49,7 @@ public class CompanyTest implements CommandLineRunner {
 
 	public void addDummyCompaneisToDatabase() {
 		company1 = companyService.getCompanyDetails(companyId);
-		coupon1 = new Coupon(65, company1, Category.Food, "happy hanukka", "buy 2 products and pay only for 1",
+		coupon1 = new Coupon(65, company1, Category.FOOD, "happy hanukka", "buy 2 products and pay only for 1",
 				Date.valueOf("2021-10-13"), Date.valueOf("2022-01-31"), 250, 10.0, "htyr");
 		coupon2 = companyService.getCouponById(46);
 		coupon3 = companyService.getCouponById(48);
@@ -109,7 +109,7 @@ public class CompanyTest implements CommandLineRunner {
 
 	public List<Coupon> getCompanyCouponsByCategory() {
 		System.out.println("success get all company coupons by category.");
-		return companyService.getCompanyCoupons(Category.Vacation, companyId);
+		return companyService.getCompanyCoupons(Category.VACATION, companyId);
 	}
 
 	public List<Coupon> getCompanyCouponsByMaxPrice() {

@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.chana.exceptions.LoginException;
-import com.chana.exceptions.ServiceException;
 import com.chana.service.AdminService;
 import com.chana.service.ClientService;
 import com.chana.service.CompanyService;
@@ -22,7 +21,7 @@ public class LoginManager {
 	private CustomerService customerService;
 	@Autowired
 	private CompanyService companyService;
-
+	@Autowired
 	private TokenManager tokenManager;
 	private ClientService clientService;
 

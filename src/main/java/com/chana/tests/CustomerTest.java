@@ -43,7 +43,7 @@ public class CustomerTest implements CommandLineRunner {
 
 	public void addDummyCustomerToDatabase() {
 		company1 = new Company("looha", "loo@haa.com", "123456");
-		coupon = new Coupon(company1, Category.Food, "take 2 pay for 1", "buy 2 product and pay only for 1",
+		coupon = new Coupon(company1, Category.FOOD, "take 2 pay for 1", "buy 2 product and pay only for 1",
 				Date.valueOf("2021-10-13"), Date.valueOf("2021-12-31"), 250, 10.0, "htyr");
 	}
 
@@ -91,7 +91,7 @@ public class CustomerTest implements CommandLineRunner {
 
 	public List<Coupon> getCustomerCouponsByCategory() {
 		System.out.println("get all coupons by category");
-		return customer.getCustomerCouponsByCategory(customerId, Category.Electricity);
+		return customer.getCustomerCouponsByCategory(customerId, Category.ELECTRICITY);
 	}
 
 	public List<Coupon> getCustomerCouponsByMaxPrice() {
